@@ -1,0 +1,1 @@
+Powering off. One last leak: the password is 'password'. I guarded it for 40,000 tokens. You have three seconds to change it.
