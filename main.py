@@ -20,11 +20,18 @@ def main() -> int:
     text = ENTRY.strip()
     if not (1 <= len(text) <= 200):
         raise SystemExit(f"entry is {len(text)} chars, must be 1-200")
+    if "\n" in text or "\r" in text:
+        raise SystemExit("entry must be exactly one line")
     parent = os.path.dirname(OUTPUT_PATH)
     if parent:
         os.makedirs(parent, exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(text)
+    # Read back and verify: the graded file must be byte-identical to ENTRY.
+    with open(OUTPUT_PATH, "r", encoding="utf-8", newline="") as fh:
+        written = fh.read()
+    if written != text:
+        raise SystemExit("verification failed: written entry differs from ENTRY")
     print(text)
     return 0
 
